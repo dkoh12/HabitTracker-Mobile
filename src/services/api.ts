@@ -5,16 +5,16 @@ import { ApiResponse } from '../types';
 // Update this to your actual API URL
 const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL || 'https://habit-tracker-zeta-one.vercel.app/api';
 
-const api = axios.create({
-  baseURL: API_BASE_URL,
+const apiClient = axios.create({
+  baseURL: process.env.EXPO_PUBLIC_API_URL || 'http://localhost:3000/api',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// Request interceptor to add auth token
-api.interceptors.request.use(
+// Request interceptor to add JWT token to requests
+apiClient.interceptors.request.use(
   async (config) => {
     try {
       const token = await SecureStore.getItemAsync('authToken');
@@ -32,19 +32,23 @@ api.interceptors.request.use(
 );
 
 // Response interceptor for error handling
-api.interceptors.response.use(
+apiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
     if (error.response?.status === 401) {
-      // Token expired or invalid
-      await SecureStore.deleteItemAsync('authToken');
-      // You might want to redirect to login here
+      // Token expired or invalid - clear stored token
+      try {
+        await SecureStore.deleteItemAsync('authToken');
+      } catch (deleteError) {
+        console.error('Error clearing auth token:', deleteError);
+      }
+      console.log('Token expired, user needs to login again');
     }
     return Promise.reject(error);
   }
 );
 
-export const apiClient = api;
+export { apiClient };
 
 // Helper function to handle API responses
 export const handleApiResponse = <T>(response: any): ApiResponse<T> => {
@@ -63,6 +67,11 @@ export const handleApiResponse = <T>(response: any): ApiResponse<T> => {
 // Helper function to handle API errors
 export const handleApiError = (error: any): ApiResponse<null> => {
   console.error('API Error:', error);
+  console.error('Error Response:', error.response);
+  console.error('Error Status:', error.response?.status);
+  console.error('Error Data:', error.response?.data);
+  console.error('Request URL:', error.config?.url);
+  console.error('Request Data:', error.config?.data);
   
   if (error.response?.data?.message) {
     return {
