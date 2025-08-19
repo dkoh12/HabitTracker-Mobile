@@ -4,7 +4,7 @@ import { Habit, HabitWithEntries, CreateHabitData, UpdateHabitData, HabitEntry, 
 export const habitService = {
   async getHabits(): Promise<ApiResponse<Habit[] | null>> {
     try {
-      const response = await apiClient.get('/mobile/habits');
+      const response = await apiClient.get('/habits');
       return handleApiResponse<Habit[]>(response);
     } catch (error) {
       return handleApiError(error);
@@ -13,7 +13,7 @@ export const habitService = {
 
   async getHabit(id: string): Promise<ApiResponse<HabitWithEntries | null>> {
     try {
-      const response = await apiClient.get(`/mobile/habits/${id}`);
+      const response = await apiClient.get(`/habits/${id}`);
       return handleApiResponse<HabitWithEntries>(response);
     } catch (error) {
       return handleApiError(error);
@@ -22,7 +22,7 @@ export const habitService = {
 
   async createHabit(data: CreateHabitData): Promise<ApiResponse<Habit | null>> {
     try {
-      const response = await apiClient.post('/mobile/habits', data);
+      const response = await apiClient.post('/habits', data);
       return handleApiResponse<Habit>(response);
     } catch (error) {
       return handleApiError(error);

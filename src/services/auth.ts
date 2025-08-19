@@ -8,7 +8,7 @@ export const authService = {
       console.log('Attempting JWT login with:', credentials);
       console.log('API URL:', process.env.EXPO_PUBLIC_API_URL);
       
-      const response = await apiClient.post('/mobile/auth/login', credentials);
+      const response = await apiClient.post('/auth/mobile/login', credentials);
       const result = handleApiResponse<{ user: User; token: string }>(response);
       
       if (result.success && result.data?.token) {
@@ -23,7 +23,7 @@ export const authService = {
 
   async signUp(credentials: RegisterData): Promise<ApiResponse<{ user: User; token: string } | null>> {
     try {
-      const response = await apiClient.post('/mobile/auth/register', credentials);
+      const response = await apiClient.post('/auth/mobile/register', credentials);
       const result = handleApiResponse<{ user: User; token: string }>(response);
       
       if (result.success && result.data?.token) {
@@ -41,7 +41,7 @@ export const authService = {
       await SecureStore.deleteItemAsync('authToken');
       // Optional: call logout endpoint to blacklist token
       try {
-        await apiClient.post('/mobile/auth/logout');
+        await apiClient.post('/auth/mobile/logout');
       } catch (error) {
         // Ignore logout endpoint errors
       }
@@ -52,7 +52,7 @@ export const authService = {
 
   async getCurrentUser(): Promise<ApiResponse<User | null>> {
     try {
-      const response = await apiClient.get('/mobile/auth/me');
+      const response = await apiClient.get('/profile');
       return handleApiResponse<User>(response);
     } catch (error) {
       return handleApiError(error);
