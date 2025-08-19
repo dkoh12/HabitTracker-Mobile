@@ -44,7 +44,7 @@ const CreateHabitScreen: React.FC<NavigationProps> = ({ navigation }) => {
       description: description.trim() || undefined,
       color,
       frequency,
-      targetCount: target,
+      target: target,
     };
 
     setIsLoading(true);

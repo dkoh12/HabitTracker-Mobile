@@ -5,18 +5,20 @@ export interface Habit {
   color: string;
   icon?: string;
   frequency: 'daily' | 'weekly' | 'monthly';
-  targetCount: number;
+  target: number;
+  unit?: string;
   isActive: boolean;
   userId: string;
   createdAt: Date;
   updatedAt: Date;
+  habitEntries?: HabitEntry[];
 }
 
 export interface HabitEntry {
   id: string;
   habitId: string;
   date: Date;
-  completed: boolean;
+  value: number;
   notes?: string;
   createdAt: Date;
   updatedAt: Date;
@@ -32,7 +34,8 @@ export interface CreateHabitData {
   color: string;
   icon?: string;
   frequency: 'daily' | 'weekly' | 'monthly';
-  targetCount: number;
+  target: number;
+  unit?: string;
 }
 
 export interface UpdateHabitData extends Partial<CreateHabitData> {

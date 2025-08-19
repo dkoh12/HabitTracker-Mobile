@@ -19,6 +19,7 @@
     "expo-auth-session": "^6.2.1",
     "expo-constants": "^17.1.7",
     "expo-crypto": "^14.1.5",
+    "expo-linear-gradient": "^14.1.5",
     "expo-secure-store": "^14.2.3",
     "expo-status-bar": "~2.2.3",
     "lucide-react-native": "^0.540.0",
