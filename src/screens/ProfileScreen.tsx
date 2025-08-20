@@ -340,7 +340,7 @@ const ProfileScreen: React.FC = () => {
         name: 'avatar.jpg',
       } as any);
 
-      const response = await apiClient.post('/mobile/upload-avatar', formData, {
+      const response = await apiClient.post('/upload-avatar', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -377,7 +377,7 @@ const ProfileScreen: React.FC = () => {
             try {
               const { apiClient } = await import('../services/api');
               
-              const response = await apiClient.delete('/mobile/upload-avatar');
+              const response = await apiClient.delete('/upload-avatar');
 
               if (response.status === 200) {
                 const updatedProfile = response.data.user;
@@ -475,9 +475,6 @@ const ProfileScreen: React.FC = () => {
                     </Text>
                   </LinearGradient>
                 )}
-                <View style={styles.cameraOverlay}>
-                  <Camera color="white" size={16} />
-                </View>
                 
                 {/* Remove Avatar Button */}
                 {profile.avatar && (

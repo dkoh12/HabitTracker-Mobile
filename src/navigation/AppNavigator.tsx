@@ -10,13 +10,14 @@ import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import HabitsScreen from '../screens/HabitsScreen';
 import AnalyticsScreen from '../screens/AnalyticsScreen';
+import BadgesScreen from '../screens/BadgesScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import HabitDetailScreen from '../screens/HabitDetailScreen';
 import CreateHabitScreen from '../screens/CreateHabitScreen';
 import EditHabitScreen from '../screens/EditHabitScreen';
 
 // Import icons
-import { Home, BarChart3, User } from 'lucide-react-native';
+import { Home, BarChart3, Award, User } from 'lucide-react-native';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<TabParamList>();
@@ -47,6 +48,13 @@ const TabNavigator = () => {
         component={AnalyticsScreen}
         options={{
           tabBarIcon: ({ color, size }) => <BarChart3 color={color} size={size} />,
+        }}
+      />
+      <Tab.Screen
+        name="Badges"
+        component={BadgesScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => <Award color={color} size={size} />,
         }}
       />
       <Tab.Screen

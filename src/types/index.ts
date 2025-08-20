@@ -1,5 +1,6 @@
 export * from './habit';
 export * from './auth';
+export * from './badge';
 
 export interface NavigationProps {
   navigation: any;
@@ -19,5 +20,6 @@ export type RootStackParamList = {
 export type TabParamList = {
   Habits: undefined;
   Analytics: undefined;
+  Badges: undefined;
   Profile: undefined;
 };

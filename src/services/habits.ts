@@ -31,7 +31,7 @@ export const habitService = {
 
   async updateHabit(id: string, data: UpdateHabitData): Promise<ApiResponse<Habit | null>> {
     try {
-      const response = await apiClient.put(`/mobile/habits/${id}`, data);
+      const response = await apiClient.put(`/habits/${id}`, data);
       return handleApiResponse<Habit>(response);
     } catch (error) {
       return handleApiError(error);
@@ -40,7 +40,7 @@ export const habitService = {
 
   async deleteHabit(id: string): Promise<ApiResponse<null>> {
     try {
-      await apiClient.delete(`/mobile/habits/${id}`);
+      await apiClient.delete(`/habits/${id}`);
       return { success: true };
     } catch (error) {
       return handleApiError(error);
@@ -49,7 +49,7 @@ export const habitService = {
 
   async markHabitComplete(habitId: string, date: string): Promise<ApiResponse<HabitEntry | null>> {
     try {
-      const response = await apiClient.post('/mobile/habit-entries', { 
+      const response = await apiClient.post('/habit-entries', { 
         habitId, 
         date, 
         value: 1 
@@ -63,10 +63,10 @@ export const habitService = {
   async markHabitIncomplete(habitId: string, date: string): Promise<ApiResponse<null>> {
     try {
       // Find the entry first to get its ID
-      const entriesResponse = await apiClient.get(`/mobile/habit-entries?habitId=${habitId}&startDate=${date}&endDate=${date}`);
+      const entriesResponse = await apiClient.get(`/habit-entries?habitId=${habitId}&startDate=${date}&endDate=${date}`);
       if (entriesResponse.data && entriesResponse.data.length > 0) {
         const entryId = entriesResponse.data[0].id;
-        await apiClient.delete(`/mobile/habit-entries/${entryId}`);
+        await apiClient.delete(`/habit-entries/${entryId}`);
       }
       return { success: true };
     } catch (error) {
@@ -81,7 +81,7 @@ export const habitService = {
       if (startDate) params.append('startDate', startDate);
       if (endDate) params.append('endDate', endDate);
       
-      const response = await apiClient.get(`/mobile/habit-entries?${params.toString()}`);
+      const response = await apiClient.get(`/habit-entries?${params.toString()}`);
       return handleApiResponse<HabitEntry[]>(response);
     } catch (error) {
       return handleApiError(error);
