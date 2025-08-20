@@ -13,7 +13,7 @@ import {
   FlatList,
   Dimensions 
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as ImagePicker from 'expo-image-picker';
 import { 
@@ -62,6 +62,7 @@ interface DefaultAvatar {
 
 const ProfileScreen: React.FC = () => {
   const { user, signOut } = useAuth();
+  const insets = useSafeAreaInsets();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [userStats, setUserStats] = useState<UserStats>({
     totalPoints: 0,
@@ -438,8 +439,12 @@ const ProfileScreen: React.FC = () => {
 
   return (
     <LinearGradient colors={['#f5f7fa', '#c3cfe2']} style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+      <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
+        <ScrollView 
+          style={styles.scrollView} 
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: insets.bottom + 100 }} // Add bottom padding for tab bar
+        >
           {/* Header */}
           <View style={styles.header}>
             <View style={styles.profileHeader}>
@@ -737,8 +742,6 @@ const ProfileScreen: React.FC = () => {
             <LogOut color="#ef4444" size={20} />
             <Text style={styles.signOutText}>Sign Out</Text>
           </TouchableOpacity>
-
-          <View style={styles.bottomSpacer} />
         </ScrollView>
       </SafeAreaView>
     </LinearGradient>
@@ -1155,9 +1158,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
     color: '#ef4444',
-  },
-  bottomSpacer: {
-    height: 40,
   },
 });
 

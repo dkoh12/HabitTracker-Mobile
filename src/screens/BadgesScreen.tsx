@@ -10,7 +10,7 @@ import {
   Dimensions,
   FlatList
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import {
   Shield,
@@ -42,6 +42,7 @@ const { width } = Dimensions.get('window');
 
 const BadgesScreen: React.FC = () => {
   const { user } = useAuth();
+  const insets = useSafeAreaInsets();
   const [badges, setBadges] = useState<Badge[]>([]);
   const [userStats, setUserStats] = useState<BadgeStats>({
     totalPoints: 0,
@@ -209,8 +210,12 @@ const BadgesScreen: React.FC = () => {
 
   return (
     <LinearGradient colors={['#f5f7fa', '#c3cfe2']} style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+      <SafeAreaView style={styles.safeArea} edges={['top', 'left', 'right']}>
+        <ScrollView 
+          style={styles.scrollView} 
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: insets.bottom + 100 }}
+        >
           {/* Header */}
           <View style={styles.header}>
             <Text style={styles.pageTitle}>Badges & Achievements</Text>

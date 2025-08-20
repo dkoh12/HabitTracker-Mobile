@@ -10,7 +10,7 @@ import {
   ScrollView,
   Dimensions,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Plus, CheckCircle, Circle, TrendingUp, Target, Calendar, Flame } from 'lucide-react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { habitService } from '../services/habits';
@@ -28,6 +28,7 @@ interface HabitWithStats extends Habit {
 }
 
 const HabitsScreen: React.FC<NavigationProps> = ({ navigation }) => {
+  const insets = useSafeAreaInsets();
   const [habits, setHabits] = useState<HabitWithStats[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -272,7 +273,7 @@ const HabitsScreen: React.FC<NavigationProps> = ({ navigation }) => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
       <View style={styles.header}>
         <Text style={styles.title}>My Habits</Text>
         <TouchableOpacity
@@ -286,6 +287,7 @@ const HabitsScreen: React.FC<NavigationProps> = ({ navigation }) => {
       <ScrollView
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={{ paddingBottom: insets.bottom + 100 }}
       >
         {renderStatsCard()}
         {renderPeriodSelector()}

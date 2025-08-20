@@ -8,11 +8,12 @@ import {
   Alert,
   ScrollView,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { habitService } from '../services/habits';
 import { NavigationProps, CreateHabitData } from '../types';
 
 const CreateHabitScreen: React.FC<NavigationProps> = ({ navigation }) => {
+  const insets = useSafeAreaInsets();
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [color, setColor] = useState('#3b82f6');
@@ -65,8 +66,11 @@ const CreateHabitScreen: React.FC<NavigationProps> = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.content}>
+    <SafeAreaView style={styles.container} edges={['left', 'right']}>
+      <ScrollView 
+        style={styles.content}
+        contentContainerStyle={{ paddingBottom: insets.bottom + 20 }}
+      >
         <View style={styles.form}>
           <Text style={styles.label}>Name *</Text>
           <TextInput
